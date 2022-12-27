@@ -3,6 +3,7 @@ import json
 from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Project
+from django.core import serializers
 
 # Create your views here.
 
@@ -24,8 +25,11 @@ def project_store(request):
     })
 
 
+@csrf_exempt
 def list_view(request):
-    context={}
+    
+    context=Project.objects.all()
 
-    context["dataset"]=Proejct.objects.all()
-    return render(request,"list_view.html",context)
+    return JsonResponse({
+        "data" : list(context.values())
+    }, safe=False)
