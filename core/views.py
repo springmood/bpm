@@ -6,14 +6,6 @@ from .forms import ProjectForm
 from django.core import serializers
 
 
-# Create your views here.
-def projects(request):
-    return HttpResponse('here are your projects')
-
-
-def project(request, pk):
-    return HttpResponse('Single Proejct ' + str(pk))
-
 @csrf_exempt
 def project_store(request):
     this_title=request.POST['title']
@@ -26,16 +18,17 @@ def project_store(request):
 
 
 @csrf_exempt
-def list_view(request):
-    
-    context=Project.objects.all()
+def project_list(request):
 
+    context=Project.objects.all()
     return JsonResponse({
         "data" : list(context.values())
     }, safe=False)
 
+
+
 @csrf_exempt
-def detail_view(request,id):
+def project_detail(request,id):
 
     # context=Project.objects.get(id=id)
     context=Project.objects.filter(id=id)
@@ -44,8 +37,10 @@ def detail_view(request,id):
         "data" : list(context.values())
     }, safe=False)
 
+
+
 @csrf_exempt
-def update_view(request,id):
+def project_update(request,id):
     obj=get_object_or_404(Project,id=id)
     form=ProjectForm(request.POST or None,instance=obj)
 
@@ -57,8 +52,10 @@ def update_view(request,id):
             "error" : "data is not fount"
         }, safe=False)
 
+
+
 @csrf_exempt
-def delete_view(request,id):
+def project_delete(request,id):
     obj=get_object_or_404(Project,id=id)
 
     if request.method=="POST":
