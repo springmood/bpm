@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 class Project(models.Model):
     title=models.CharField(max_length=225)
     desc=models.TextField()
+    def __str__(self) -> str:
+        return self.title
 
 class Task(models.Model):
     title=models.CharField(max_length=225)
