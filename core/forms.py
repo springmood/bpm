@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Project
+from core.models import Project,Task
 
 # create a form 
 class ProjectForm(forms.ModelForm):
@@ -14,3 +14,8 @@ class ProjectForm(forms.ModelForm):
         #     "title",
         #     'desc'
         # }
+
+class TaskForm(forms.ModelForm):
+    class Meta:
+        model=Task
+        fields="__all__"
