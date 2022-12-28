@@ -7,4 +7,10 @@ urlpatterns = [
     path('project/<id>',views.project_detail),
     path('project/update/<id>',views.project_update,name="project-update"),
     path('project/delete/<id>',views.project_delete,name="project-delete"),
+    # task url
+    path('tasks', views.task_list, name="tasks"),
+    path('task/create', views.task_store, name="task-create"),
+    path('task/<id>',views.task_detail),
+    path('task/update/<id>',views.task_update,name="task-update"),
+    path('task/delete/<id>',views.task_delete,name="task-delete"),
 ]
