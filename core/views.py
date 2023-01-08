@@ -3,15 +3,17 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from core.models import Project, Task, User, Role
 from .forms import ProjectForm, TaskForm, UserForm, RoleForm
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
-@csrf_exempt
+@api_view(['POST'])
 def project_store(request):
-    this_title = request.POST['title']
-    this_desc = request.POST['desc']
+    this_title = request.data['title']
+    this_desc = request.data['desc']
 
     Project.objects.create(title=this_title, desc=this_desc)
-    return JsonResponse({
+    return Response({
         "status": "ok",
     })
 
