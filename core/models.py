@@ -17,20 +17,6 @@ class Task(models.Model):
     type = models.CharField(max_length=225, null=True)
 
 
-class ProjectMember(models.Model):
-    project = models.ForeignKey("Project", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
-class TaskMember(models.Model):
-    task = models.ForeignKey("Task", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
-
-class TaskMember(models.Model):
-    task = models.ForeignKey("Task", on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-
 
 class User(models.Model):
     fname = models.CharField(max_length=225)
@@ -52,3 +38,13 @@ class Role(models.Model):
 
     def __str__(self) -> str:
         return self.title
+
+
+class ProjectMember(models.Model):
+    project_id = models.ForeignKey("Project", on_delete=models.CASCADE,null=True)
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    role_id = models.ForeignKey("Role", on_delete=models.CASCADE,null=True)
+
+class TaskMember(models.Model):
+    task = models.ForeignKey("Task", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
