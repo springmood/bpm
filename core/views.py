@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from core.models import Project, Task, User, Role
-from .forms import ProjectForm, TaskForm, UserForm, RoleForm
+from core.models import Project, Task, User, Role, ProjectMember
+from .forms import ProjectForm, TaskForm, UserForm, RoleForm, ProjectMemberForm
 
 
 @csrf_exempt
@@ -166,7 +166,7 @@ def user_update(request, id):
     obj = get_object_or_404(User, id=id)
     form = UserForm(request.POST or None, instance=obj)
     if form.is_valid():
-        form.password=obj.set_password(request.POST['password'])
+        form.password = obj.set_password(request.POST['password'])
         form.save()
         return redirect("/user/"+id)
     else:
@@ -235,6 +235,70 @@ def role_update(request, id):
 @csrf_exempt
 def role_delete(request, id):
     obj = get_object_or_404(Role, id=id)
+
+    if request.method == "POST":
+        obj.delete()
+
+    return JsonResponse({
+        "status": "deleted successful",
+    })
+
+# Project Member Views
+
+
+@csrf_exempt
+def project_member_store(request):
+    this_project_id = request.POST['project_id']
+    this_user_id = request.POST['user_id']
+    this_role_id = request.POST['role_id']
+    # project_member = ProjectMember()
+    # project_member.project_id = this_project_id
+    # project_member.user_id = this_user_id
+    # project_member.role_id = this_role_id
+    # project_member.save()
+
+    ProjectMember.objects.create(project_id=this_project_id, user_id=this_user_id, role_id=this_role_id)
+
+    return JsonResponse({
+        "status": "created successful",
+    })
+
+
+@csrf_exempt
+def project_member_list(request):
+
+    context = ProjectMember.objects.all()
+    return JsonResponse({
+        "data": list(context.values())
+    }, safe=False)
+
+
+@csrf_exempt
+def project_member_detail(request, id):
+
+    context = ProjectMember.objects.filter(id=id)
+    return JsonResponse({
+        "data": list(context.values())
+    }, safe=False)
+
+
+@csrf_exempt
+def project_member_update(request, id):
+
+    obj = get_object_or_404(ProjectMember, id=id)
+    form = ProjectMemberForm(request.POST or None, instance=obj)
+    if form.is_valid():
+        form.save()
+        return redirect("/project/member/"+id)
+    else:
+        return JsonResponse({
+            "error": "data is not found"
+        }, safe=False)
+
+
+@csrf_exempt
+def project_member_delete(request, id):
+    obj = get_object_or_404(ProjectMember, id=id)
 
     if request.method == "POST":
         obj.delete()
