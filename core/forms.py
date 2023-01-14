@@ -1,5 +1,5 @@
 from django import forms
-from core.models import Project, Task, User, Role
+from core.models import Project, Task, User, Role,ProjectMember
 
 # create a form
 
@@ -34,3 +34,8 @@ class RoleForm(forms.ModelForm):
     class Meta:
         model = Role
         fields = "__all__"
+
+class ProjectMemberForm(forms.ModelForm):
+    class Meta:
+        model=ProjectMember
+        fields="__all__"
