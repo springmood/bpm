@@ -26,4 +26,10 @@ urlpatterns = [
     path('role/<id>', views.role_detail),
     path('role/delete/<id>', views.role_delete, name="role-delete"),
     path('role/update/<id>', views.role_update, name="role-update"),
+    # project member
+    path('project/members', views.project_member_list, name="project-members"),
+    path('project/member/create', views.project_member_store, name="project-member-craete"),
+    path('project/member/<id>', views.project_member_detail),
+    path('project/member/delete/<id>', views.project_member_delete, name="project-member-delete"),
+    path('project/member/update/<id>', views.project_member_update, name="project-member-update"),
 ]
