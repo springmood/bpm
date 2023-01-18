@@ -1,5 +1,6 @@
 from django.db import models
 from user.models import User
+from role.models import Role
 
 
 class Project(models.Model):
@@ -14,4 +15,4 @@ class Project(models.Model):
 class ProjectMember(models.Model):
     project_id = models.ForeignKey("Project", on_delete=models.CASCADE,null=True)
     user_id = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    role_id = models.ForeignKey("Role", on_delete=models.CASCADE,null=True)
+    role_id = models.ForeignKey(Role, on_delete=models.CASCADE,null=True)
