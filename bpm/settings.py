@@ -40,11 +40,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'user.apps.UserConfig',
     'project.apps.ProjectConfig',
-    'auth.apps.AuthConfig',
+    'authenticate.apps.AuthenticateConfig',
     'task.apps.TaskConfig',
+    'role.apps.RoleConfig',
     'django_dump_die',
     'corsheaders',
-    'rest_framework'
+    'rest_framework',
+    'timestamps',
 ]
 
 MIDDLEWARE = [

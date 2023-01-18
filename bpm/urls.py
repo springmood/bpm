@@ -22,10 +22,9 @@ urlpatterns = [
     path('', include('user.urls')),
     path('', include('project.urls')),
     path('', include('task.urls')),
-    path('',include('auth.urls')),
+    path('',include('authenticate.urls')),
+    path('',include('role.urls')),
     path('api-token-auth', views.obtain_auth_token)
 ]
 
 
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
