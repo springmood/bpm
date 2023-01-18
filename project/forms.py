@@ -1,5 +1,5 @@
 from django import forms
-from project.models import Project
+from project.models import Project,ProjectMember
 
 class Form(forms.ModelForm):
     # create meta class
@@ -14,3 +14,7 @@ class Form(forms.ModelForm):
         #     'desc'
         # }
 
+class ProjectMemberForm(forms.ModelForm):
+    class Meta:
+        model=ProjectMember
+        fields="__all__"
