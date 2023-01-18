@@ -1,12 +1,11 @@
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import generics
-from ..auth.serializers import MyTokenObtainPairSerializer
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.permissions import AllowAny
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from ..auth.serializers import UserSerializer,RegisterSerializer
+from authenticate.serializers import UserSerializer,RegisterSerializer,MyTokenObtainPairSerializer
 
 class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
