@@ -3,15 +3,18 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from project.models import Project,ProjectMember
 from project.forms import Form,ProjectMemberForm
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-@csrf_exempt
+@api_view(['POST'])
 def store(request):
-    this_title = request.POST['title']
-    this_desc = request.POST['desc']
-    this_img = request.POST.get('img',False)
+    this_title = request.data['title']
+    this_desc = request.data['desc']
+    this_slug = request.data['slug']
+    this_img = request.data.get('img',False)
 
-    Project.objects.create(title=this_title, desc=this_desc,img=this_img)
-    return JsonResponse({
+    Project.objects.create(title=this_title, desc=this_desc,img=this_img, slug=this_slug)
+    return Response({
         "status": "created successful",
     })
 

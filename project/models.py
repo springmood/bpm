@@ -6,6 +6,7 @@ from role.models import Role
 class Project(models.Model):
     title = models.CharField(max_length=225)
     desc = models.TextField()
+    slug = models.TextField(default=0)
     img = models.CharField(max_length=500, null=True)
 
     def __str__(self) -> str:
