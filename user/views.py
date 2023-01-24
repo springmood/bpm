@@ -4,25 +4,26 @@ from django.views.decorators.csrf import csrf_exempt
 from user.models import User
 from django.http import JsonResponse
 from user.forms import Form
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-@csrf_exempt
+@api_view(['POST'])
 def store(request):
-    this_fname = request.POST['fname']
-    this_lname = request.POST['lname']
-    this_email = request.POST['email']
-    this_password = request.POST['password']
-    this_username=request.POST['username']
+    this_first_name = request.data['first_name']
+    this_last_name = request.data['last_name']
+    this_email = request.data['email']
+    this_password = request.data['password']
+    this_username=request.data['username']
 
-    # User.objects.create(fname=this_fname,lname=this_lname,email=this_email,password=this_password)
     user = User()
-    user.fname = this_fname
-    user.lname = this_lname
+    user.first_name = this_first_name
+    user.last_name = this_last_name
     user.email = this_email
     user.username=this_username
     user.set_password(this_password)
     user.save()
 
-    return JsonResponse({
+    return Response({
         "status": "created successful",
     })
 
