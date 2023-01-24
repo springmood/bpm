@@ -5,6 +5,7 @@ from project.models import Project,ProjectMember
 from project.forms import Form,ProjectMemberForm
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from .serializers import ProjectSerializer
 
 @api_view(['POST'])
 def store(request):
@@ -27,15 +28,13 @@ def getAll(request):
     }, safe=False)
 
 
-@csrf_exempt
+@api_view(['GET'])
 def detail(request, id):
 
-    # context=Project.objects.get(id=id)
-    context = Project.objects.filter(id=id)
-    # dd(context)
-    return JsonResponse({
-        "data": list(context.values())
-    }, safe=False)
+    # projects = Project.objects.filter(id=id)
+    project=Project.objects.get(id=id)
+    serializer = ProjectSerializer(project)
+    return Response({"data": serializer.data })
 
 
 @csrf_exempt
