@@ -2,23 +2,24 @@ from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from role.models import Role
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
-
-@csrf_exempt
+@api_view(['POST'])
 def store(request):
     this_title = request.POST['title']
 
     Role.objects.create(title=this_title)
 
-    return JsonResponse({
+    return Response({
         "status": "created successful",
     })
 
 
-@csrf_exempt
+@api_view(['GET'])
 def getAll(request):
     context = Role.objects.all()
-    return JsonResponse({
+    return Response({
         "data": list(context.values())
     }, safe=False)
 

@@ -1,28 +1,31 @@
 from django.shortcuts import get_object_or_404, redirect, render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-from task.models import Task
+from task.models import Task,Project
 from task.forms import Form, UploadFileForm
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 
-@csrf_exempt
+@api_view(['POST'])
 def store(request):
-    this_title = request.POST['title']
-    this_desc = request.POST['desc']
-    this_type = request.POST['type']
-
-    Task.objects.create(title=this_title, desc=this_desc, type=this_type)
-    return JsonResponse({
+    this_title = request.data['title']
+    this_desc = request.data['desc']
+    this_type = request.data['type']
+    this_project_id=request.data['project_id']    
+    this_project_id=Project.objects.get(id=this_project_id)
+    Task.objects.create(title=this_title, desc=this_desc, type=this_type,project_id=this_project_id)
+    return Response({
         "status": "created successful",
     })
 
 
-@csrf_exempt
+@api_view(['GET'])
 def getAll(request):
     context = Task.objects.all()
-    return JsonResponse({
+    return Response({
         "data": list(context.values())
-    }, safe=False)
+    })
 
 
 @csrf_exempt
