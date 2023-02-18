@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404, redirect
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from project.models import Project, ProjectMember
+from user.models import User
+from role.models import Role
 from project.forms import Form, ProjectMemberForm
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -15,7 +17,6 @@ def store(request):
     this_desc = request.data['desc']
     this_slug = request.data['slug']
     this_img = request.data.get('img', False)
-
     Project.objects.create(title=this_title, desc=this_desc,
                            img=this_img, slug=this_slug)
     return Response({
@@ -73,14 +74,12 @@ def project_member_store(request):
     this_project_id = request.data['project_id']
     this_user_id = request.data['user_id']
     this_role_id = request.data['role_id']
-    # project_member = ProjectMember()
-    # project_member.project_id = this_project_id
-    # project_member.user_id = this_user_id
-    # project_member.role_id = this_role_id
-    # project_member.save()
+    project_instance = Project.objects.get(id=this_project_id)
+    user_instance = User.objects.get(id=this_user_id)
+    role_instance = Role.objects.get(id=this_role_id)
 
     ProjectMember.objects.create(
-        project_id=this_project_id, user_id=this_user_id, role_id=this_role_id)
+        project=project_instance, user=user_instance, role=role_instance)
 
     return Response({
         "status": "created successful",
@@ -89,16 +88,13 @@ def project_member_store(request):
 
 @api_view(['GET'])
 def project_member_list(request):
-
     context = ProjectMember.objects.all()
-    return Response({
+    return JsonResponse({
         "data": list(context.values())
-    })
-
+    }, safe=False)
 
 @csrf_exempt
 def project_member_detail(request, id):
-
     context = ProjectMember.objects.filter(id=id)
     return JsonResponse({
         "data": list(context.values())
