@@ -19,6 +19,8 @@ class Project(models.Model):
 
 
 class ProjectMember(models.Model):
-    project_id = models.ForeignKey("Project", on_delete=models.CASCADE,null=True)
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
-    role_id = models.ForeignKey(Role, on_delete=models.CASCADE,null=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True,primary_key=True, editable=False)
+    project = models.ForeignKey("Project", on_delete=models.CASCADE,null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    role = models.ForeignKey(Role, on_delete=models.CASCADE,null=True)
+   
