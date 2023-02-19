@@ -1,5 +1,5 @@
 from django.shortcuts import get_object_or_404, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from project.models import Project, ProjectMember
 from user.models import User
@@ -71,12 +71,20 @@ def delete(request, id):
 
 @api_view(['POST'])
 def project_member_store(request):
+
+    user=User.objects.create(
+        first_name=request.data['first_name'],
+        last_name=request.data['last_name'],
+        email=request.data['email'],
+        username=request.data['email'],
+        password=request.data['email'],
+    )
+    role=Role.objects.create(title=request.data['title'])
+
     this_project_id = request.data['project_id']
-    this_user_id = request.data['user_id']
-    this_role_id = request.data['role_id']
     project_instance = Project.objects.get(id=this_project_id)
-    user_instance = User.objects.get(id=this_user_id)
-    role_instance = Role.objects.get(id=this_role_id)
+    user_instance = User.objects.get(id=user.id)
+    role_instance = Role.objects.get(id=role.id)
 
     ProjectMember.objects.create(
         project=project_instance, user=user_instance, role=role_instance)
