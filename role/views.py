@@ -19,7 +19,7 @@ def store(request):
 @api_view(['GET'])
 def getAll(request):
     context = Role.objects.all()
-    return Response({
+    return JsonResponse({
         "data": list(context.values())
     }, safe=False)
 
